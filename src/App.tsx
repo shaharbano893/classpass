@@ -49,9 +49,9 @@ export const App: React.FC = () => {
               </Form>
             )}
           </Formik>
-          {data && (
+          {data?.match && (
             <p className="mt-4 mb-0 text-green-600 font-bold">
-              Validation result: {data}
+              Validation result: {data?.match}
             </p>
           )}
         </div>
