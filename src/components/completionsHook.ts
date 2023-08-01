@@ -1,18 +1,18 @@
 import { useState } from "react";
 
 const useValidation = () => {
-    const [relevance, setRelevance] = useState("Verifying...");
-  
-    const getRelevance = async(
-        name : any,
-        address: any,
-        attributes: any,
-        rating: any,
-        description: any,
-        reviews: any,
-        zip: any
-    ) => {
-        const prompt = `
+  const [relevance, setRelevance] = useState("Verifying...");
+
+  const getRelevance = async (
+    name: any,
+    address: any,
+    attributes: any,
+    rating: any,
+    description: any,
+    reviews: any,
+    zip: any
+  ) => {
+    const prompt = `
         I will give you some sample data that is relevant to my case in the following format
 
         name = {name of class or studio} description = {description text} address = {address} zipcode = {zipcode} review = {comma separated reviews} rating = {gym/studio/class rating out of 5}
@@ -91,32 +91,32 @@ const useValidation = () => {
         Test Data to check:
         name = ${name} description = ${description} address = ${address} zipcode = ${zip} reviews = ${reviews} rating = ${rating}
         `;
-        console.log("*Prompt*");
-        console.log(`name = ${name} description = ${description} address = ${address} zipcode = ${zip} reviews = ${reviews} rating = ${rating}`);
-        let response;
-        try {
-            response = await fetch("https://api.openai.com/v1/chat/completions", {
-                method: "POST",
-                headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer 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`,
-                },
-                body: JSON.stringify({
-                model: "gpt-3.5-turbo-16k",
-                messages: [
-                    {"role": "system", "content": prompt},
-                ],
-                }),
-            }) as any;
-            response = await response.json();
-            console.log(response);
-            setRelevance(response.choices[0].message.content);
-        } catch(err) {
-            console.log("Error ", err);
-        }
+    console.log("*Prompt*");
+    console.log(
+      `name = ${name} description = ${description} address = ${address} zipcode = ${zip} reviews = ${reviews} rating = ${rating}`
+    );
+    let response;
+    try {
+      response = (await fetch("https://api.openai.com/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer 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`,
+        },
+        body: JSON.stringify({
+          model: "gpt-3.5-turbo-16k",
+          messages: [{ role: "system", content: prompt }],
+        }),
+      })) as any;
+      response = await response.json();
+      console.log(response);
+      setRelevance(response.choices[0].message.content);
+    } catch (err) {
+      console.log("Error ", err);
     }
-  
-    return { relevance, getRelevance }
-  }
-  
-  export default useValidation;
+  };
+
+  return { relevance, getRelevance, setRelevance };
+};
+
+export default useValidation;

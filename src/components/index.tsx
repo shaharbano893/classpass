@@ -16,18 +16,15 @@ interface ReviewType {
 }
 
 export const ValidateLink: React.FC = () => {
-  const { mutate, data, isLoading, error } = useMutation({
+  const { mutate, data, isLoading } = useMutation({
     mutationFn: validateQuery,
   });
 
-  const { relevance, getRelevance } = useValidation();
+  const { relevance, getRelevance, setRelevance } = useValidation();
   const [validationSuccess, setValidationSuccess] = useState(false);
-  const [status, setStatus] = useState("");
 
   const handleGoBack = () => {
     setValidationSuccess(false);
-    setValidationSuccess(false);
-    setStatus("Verifying..");
   };
 
   const getFeaturedReviews = (reviewsArray: Array<ReviewType>) => {
@@ -51,12 +48,9 @@ export const ValidateLink: React.FC = () => {
         data?.parsed_data?.zip || ""
       );
       setValidationSuccess(true);
+      setRelevance("Verifying...");
     }
   }, [data]);
-
-  useEffect(() => {
-    setStatus(relevance);
-  }, [relevance]);
 
   return (
     <div className="flex justify-center items-center min-h-full bg-stone-100">
@@ -65,7 +59,7 @@ export const ValidateLink: React.FC = () => {
           <ViewParsedData
             handleGoBack={handleGoBack}
             data={data}
-            relevance={status}
+            relevance={relevance}
           />
         ) : (
           <div className="max-w-[700px] w-full px-8 py-12 bg-white rounded-lg shadow-lg flex flex-col justify-center items-center rounded-xl mt-4">
