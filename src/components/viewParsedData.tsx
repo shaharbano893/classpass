@@ -40,8 +40,6 @@ export const ViewParsedData: React.FC<Props> = ({ data, handleGoBack }) => {
 
   useEffect(() => {
     if (data?.parsed_data) {
-      getFeaturedReviews(data?.parsed_data?.featured_review);
-      console.log("here");
       getRelevance(
         data?.parsed_data?.venue_name || "",
         data?.parsed_data?.address || "",
