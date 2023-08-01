@@ -39,7 +39,6 @@ export const ValidateLink: React.FC = () => {
               initialValues={{ yelp_url: "" }}
               onSubmit={(values) => {
                 mutate({ yelp_url: values.yelp_url });
-                setValidationSuccess(true);
               }}
               validationSchema={Yup.object({
                 yelp_url: Yup.string().required("Required"),

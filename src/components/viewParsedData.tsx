@@ -43,16 +43,16 @@ export const ViewParsedData: React.FC<Props> = ({ data, handleGoBack }) => {
       const parsed_data = data?.parsed_data;
       data.parsed_data = undefined;
       getRelevance(
-        data?.parsed_data?.venue_name || "",
-        data?.parsed_data?.address || "",
+        parsed_data?.venue_name || "",
+        parsed_data?.address || "",
         "",
-        data?.parsed_data?.rating_average || "",
-        data?.parsed_data?.description || "",
+        parsed_data?.rating_average || "",
+        parsed_data?.description || "",
         getFeaturedReviews(data?.parsed_data?.featured_review),
-        data?.parsed_data?.zip || ""
+        parsed_data?.zip || ""
       );
     }
-  }, [data]);
+  }, [data?.parsed_data]);
 
   return (
     <div className="max-w-[700px] w-full px-8 py-12 bg-white rounded-lg shadow-lg flex flex-col justify-center items-center rounded-xl mt-4">
