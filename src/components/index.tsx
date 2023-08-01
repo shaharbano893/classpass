@@ -22,10 +22,12 @@ export const ValidateLink: React.FC = () => {
 
   const { relevance, getRelevance } = useValidation();
   const [validationSuccess, setValidationSuccess] = useState(false);
+  const [status, setStatus] = useState("");
 
   const handleGoBack = () => {
     setValidationSuccess(false);
     setValidationSuccess(false);
+    setStatus("");
   };
 
   const getFeaturedReviews = (reviewsArray: Array<ReviewType>) => {
@@ -52,6 +54,10 @@ export const ValidateLink: React.FC = () => {
     }
   }, [data]);
 
+  useEffect(() => {
+    setStatus(relevance);
+  }, [relevance]);
+
   return (
     <div className="flex justify-center items-center min-h-full bg-stone-100">
       <div className="max-w-[764px] w-full px-8 mx-auto">
@@ -59,7 +65,7 @@ export const ValidateLink: React.FC = () => {
           <ViewParsedData
             handleGoBack={handleGoBack}
             data={data}
-            relevance={relevance}
+            relevance={status}
           />
         ) : (
           <div className="max-w-[700px] w-full px-8 py-12 bg-white rounded-lg shadow-lg flex flex-col justify-center items-center rounded-xl mt-4">
