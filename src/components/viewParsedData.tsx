@@ -72,8 +72,8 @@ export const ViewParsedData: React.FC<Props> = ({ data, handleGoBack }) => {
       </p>
       <p className="text-gray-600 mb-4 sm:mb-8 text-center font-semibold">
         Attributes:{" "}
-        {attributes.length > 0
-          ? attributes.map((item: string) => (
+        {attributes?.length > 0
+          ? attributes?.map((item: string) => (
               <span key={item}>{item + "  "}</span>
             ))
           : "No attributes exit"}
@@ -83,7 +83,7 @@ export const ViewParsedData: React.FC<Props> = ({ data, handleGoBack }) => {
       </p>
       <p className="text-gray-600 mb-4 sm:mb-8 text-center font-semibold">
         Reviews:{" "}
-        {featured_review.length > 0
+        {featured_review?.length > 0
           ? getFeaturedReviews(featured_review)
           : "No reviews exit"}
       </p>

@@ -15,9 +15,8 @@ export const ValidateLink: React.FC = () => {
 
   const handleGoBack = () => {
     setValidationSuccess(false);
+    setValidationSuccess(false);
   };
-
-  console.log(error);
 
   useEffect(() => {
     if (data?.parsed_data) setValidationSuccess(true);
