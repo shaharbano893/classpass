@@ -27,7 +27,7 @@ export const ValidateLink: React.FC = () => {
   const handleGoBack = () => {
     setValidationSuccess(false);
     setValidationSuccess(false);
-    setStatus("");
+    setStatus("Verifying..");
   };
 
   const getFeaturedReviews = (reviewsArray: Array<ReviewType>) => {

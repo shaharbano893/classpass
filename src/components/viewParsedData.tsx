@@ -41,7 +41,9 @@ export const ViewParsedData: React.FC<Props> = ({
 
   return (
     <div className="max-w-[700px] w-full px-8 py-12 bg-white rounded-lg shadow-lg flex flex-col justify-center items-center rounded-xl mt-4">
-      <h2 className="text-2xl font-bold mb-4 text-center">{relevance}</h2>
+      <h2 className="text-2xl font-bold mb-4 text-center capitalize">
+        {relevance}
+      </h2>
       <h2 className="text-2xl font-bold mb-4 text-center">Gym Details</h2>
       <p className="text-gray-600 mb-4 sm:mb-8 text-center font-semibold">
         Name: {venue_name || "No venue name found"}
