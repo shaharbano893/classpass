@@ -1,11 +1,10 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import { useEffect } from "react";
-import useValidation from "./completionsHook";
 
 interface Props {
   data: any;
   handleGoBack: () => void;
+  relevance: string;
 }
 
 interface ReviewType {
@@ -16,9 +15,11 @@ interface ReviewType {
   text: string;
 }
 
-export const ViewParsedData: React.FC<Props> = ({ data, handleGoBack }) => {
-  const { relevance, getRelevance } = useValidation();
-
+export const ViewParsedData: React.FC<Props> = ({
+  data,
+  handleGoBack,
+  relevance,
+}) => {
   const getFeaturedReviews = (reviewsArray: Array<ReviewType>) => {
     if (!reviewsArray) return "";
     let reviewTextArr = [];
@@ -37,22 +38,6 @@ export const ViewParsedData: React.FC<Props> = ({ data, handleGoBack }) => {
     zip,
     attributes,
   } = data?.parsed_data || {};
-
-  useEffect(() => {
-    if (data?.parsed_data) {
-      const parsed_data = data?.parsed_data;
-      data.parsed_data = undefined;
-      getRelevance(
-        parsed_data?.venue_name || "",
-        parsed_data?.address || "",
-        "",
-        parsed_data?.rating_average || "",
-        parsed_data?.description || "",
-        getFeaturedReviews(data?.parsed_data?.featured_review),
-        parsed_data?.zip || ""
-      );
-    }
-  }, [data?.parsed_data]);
 
   return (
     <div className="max-w-[700px] w-full px-8 py-12 bg-white rounded-lg shadow-lg flex flex-col justify-center items-center rounded-xl mt-4">

@@ -5,12 +5,22 @@ import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import { useEffect, useState } from "react";
 import ViewParsedData from "./viewParsedData";
+import useValidation from "./completionsHook";
+
+interface ReviewType {
+  author: {
+    location: string;
+    name: string;
+  };
+  text: string;
+}
 
 export const ValidateLink: React.FC = () => {
   const { mutate, data, isLoading, error } = useMutation({
     mutationFn: validateQuery,
   });
 
+  const { relevance, getRelevance } = useValidation();
   const [validationSuccess, setValidationSuccess] = useState(false);
 
   const handleGoBack = () => {
@@ -18,15 +28,39 @@ export const ValidateLink: React.FC = () => {
     setValidationSuccess(false);
   };
 
+  const getFeaturedReviews = (reviewsArray: Array<ReviewType>) => {
+    if (!reviewsArray) return "";
+    let reviewTextArr = [];
+    for (let i = 0; i < reviewsArray.length; i++) {
+      reviewTextArr.push(reviewsArray[i].text);
+    }
+    return reviewTextArr.join();
+  };
+
   useEffect(() => {
-    if (data?.parsed_data) setValidationSuccess(true);
+    if (data?.parsed_data) {
+      getRelevance(
+        data?.parsed_data?.venue_name || "",
+        data?.parsed_data?.address || "",
+        "",
+        data?.parsed_data?.rating_average || "",
+        data?.parsed_data?.description || "",
+        getFeaturedReviews(data?.parsed_data?.featured_review),
+        data?.parsed_data?.zip || ""
+      );
+      setValidationSuccess(true);
+    }
   }, [data]);
 
   return (
     <div className="flex justify-center items-center min-h-full bg-stone-100">
       <div className="max-w-[764px] w-full px-8 mx-auto">
         {validationSuccess && data?.parsed_data ? (
-          <ViewParsedData handleGoBack={handleGoBack} data={data} />
+          <ViewParsedData
+            handleGoBack={handleGoBack}
+            data={data}
+            relevance={relevance}
+          />
         ) : (
           <div className="max-w-[700px] w-full px-8 py-12 bg-white rounded-lg shadow-lg flex flex-col justify-center items-center rounded-xl mt-4">
             <h1 className="text-3xl font-bold mb-4 text-center">
