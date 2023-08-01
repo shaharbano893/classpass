@@ -1,20 +1,15 @@
 import { useMutation } from "@tanstack/react-query";
 import { Oval } from "react-loader-spinner";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { validateQuery } from "../api";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import { useEffect, useState } from "react";
-import useValidation from "./completionsHook";
-
-// ... (previous imports)
+import ViewParsedData from "./viewParsedData";
 
 export const ValidateLink: React.FC = () => {
-  const { mutate, data, isLoading } = useMutation({
+  const { mutate, data, isLoading, error } = useMutation({
     mutationFn: validateQuery,
   });
-  const { relevance, getRelevance } = useValidation();
 
   const [validationSuccess, setValidationSuccess] = useState(false);
 
@@ -22,74 +17,17 @@ export const ValidateLink: React.FC = () => {
     setValidationSuccess(false);
   };
 
-  const getFeaturedReviews = (reviewsArray: any) => {
-    if (!!reviewsArray) return "";
-    let reviewTextArr = [];
-    for (let i = 0; i < reviewsArray.length; i++) {
-      reviewTextArr.push(reviewsArray[i].text);
-    }
-    return reviewTextArr.join()
-  }
+  console.log(error);
 
   useEffect(() => {
-    if (data?.parsed_data) { 
-      getRelevance(
-        data?.parsed_data?.venue_name,
-        data?.parsed_data?.address,
-        "",
-        data?.parsed_data?.rating_average,
-        data?.parsed_data?.description,
-        getFeaturedReviews(data?.parsed_data?.featured_review),
-        data?.parsed_data?.zip
-      );
-      setValidationSuccess(true);
-    }
+    if (data?.parsed_data) setValidationSuccess(true);
   }, [data]);
 
   return (
     <div className="flex justify-center items-center min-h-full bg-stone-100">
       <div className="max-w-[764px] w-full px-8 mx-auto">
         {validationSuccess && data?.parsed_data ? (
-          <div className="max-w-[700px] w-full px-8 py-12 bg-white rounded-lg shadow-lg flex flex-col justify-center items-center rounded-xl mt-4">
-            <h2 className="text-2xl font-bold mb-4 text-center">{relevance}</h2>
-            <h2 className="text-2xl font-bold mb-4 text-center">Gym Details</h2>
-            <p className="text-gray-600 mb-4 sm:mb-8 text-center font-semibold">
-              Name: {data.parsed_data.venue_name}
-            </p>
-            <p className="text-gray-600 mb-4 sm:mb-8 text-center font-semibold">
-              Address: {data.parsed_data.address}
-            </p>
-            <p className="text-gray-600 mb-4 sm:mb-8 text-center font-semibold">
-              Zipcode: {data.parsed_data.zip}
-            </p>
-            <p className="text-gray-600 mb-4 sm:mb-8 text-center font-semibold">
-              Rating: {data.parsed_data.rating_average}
-            </p>
-            <p className="text-gray-600 mb-4 sm:mb-8 text-center font-semibold">
-              Attributes:{" "}
-              {data.parsed_data.attributes.map((item: string) => (
-                <span key={item}>{item + "  "}</span>
-              ))}
-            </p>
-            <p className="text-gray-600 mb-4 sm:mb-8 text-center font-semibold">
-              Description: {data.parsed_data.description}
-            </p>
-            <p className="text-gray-600 mb-4 sm:mb-8 text-center font-semibold">
-              Reviews:{" "}
-              {data.parsed_data.featured_review.map(
-                (item: any, index: number) => (
-                  <span key={index}>{item.text + " "}</span>
-                )
-              )}
-            </p>
-            <button
-              onClick={handleGoBack}
-              className="relative bg-blue-500 text-white  py-2 rounded-lg min-w-[180px] text-center min-h-[48px]"
-            >
-              <FontAwesomeIcon icon={faArrowLeft} className="mr-2" />
-              Go Back
-            </button>
-          </div>
+          <ViewParsedData handleGoBack={handleGoBack} data={data} />
         ) : (
           <div className="max-w-[700px] w-full px-8 py-12 bg-white rounded-lg shadow-lg flex flex-col justify-center items-center rounded-xl mt-4">
             <h1 className="text-3xl font-bold mb-4 text-center">
