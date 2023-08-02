@@ -40,47 +40,52 @@ export const ViewParsedData: React.FC<Props> = ({
   } = data?.parsed_data || {};
 
   return (
-    <div className="max-w-[700px] w-full px-8 py-12 bg-white rounded-lg shadow-lg flex flex-col justify-center items-center rounded-xl mt-4">
-      <h2 className="text-2xl font-bold mb-4 text-center capitalize">
-        {relevance}
+    <div className="max-w-[700px] w-full px-8 py-12 bg-white rounded-lg shadow-lg flex flex-col rounded">
+      <button
+        onClick={handleGoBack}
+        className="relative bg-transparent text-sm text-black border-0 rounded-none w-fit text-left p-0 mb-4 hover:bg-transparent focus:bg-transparent"
+      >
+        <FontAwesomeIcon icon={faArrowLeft} className="mr-3" />
+        Back
+      </button>
+      <h2 className="text-2xl font-bold mb-8 text-center">
+        Gym Details{" "}
+        <span className="text-green-600 font-medium"> ({relevance})</span>
       </h2>
-      <h2 className="text-2xl font-bold mb-4 text-center">Gym Details</h2>
-      <p className="text-gray-600 mb-4 sm:mb-8 text-center font-semibold">
-        Name: {venue_name || "No venue name found"}
+      <p className="text-gray-600 mb-2 font-medium text-sm">
+        <span className="font-bold text-black">Name: </span>{" "}
+        {venue_name || "No venue name found"}
       </p>
-      <p className="text-gray-600 mb-4 sm:mb-8 text-center font-semibold">
-        Address: {address || "Not able to get address"}
+      <p className="text-gray-600 mb-2 font-medium text-sm">
+        <span className="font-bold text-black">Address: </span>{" "}
+        {address || "Not able to get address"}
       </p>
-      <p className="text-gray-600 mb-4 sm:mb-8 text-center font-semibold">
-        Zipcode: {zip || "No zip code exit"}
+      <p className="text-gray-600 mb-2 font-medium text-sm">
+        <span className="font-bold text-black">Zipcode: </span>
+        {zip || "No zip code exit"}
       </p>
-      <p className="text-gray-600 mb-4 sm:mb-8 text-center font-semibold">
-        Rating: {rating_average || "No rating average found"}
+      <p className="text-gray-600 mb-2 font-medium text-sm">
+        <span className="font-bold text-black">Rating: </span>
+        {rating_average || "No rating average found"}
       </p>
-      <p className="text-gray-600 mb-4 sm:mb-8 text-center font-semibold">
-        Attributes:{" "}
+      <p className="text-gray-600 mb-4 sm:mb-8 font-medium text-sm">
+        <span className="font-bold text-black">Attributes: </span>
         {attributes?.length > 0
           ? attributes?.map((item: string) => (
               <span key={item}>{item + "  "}</span>
             ))
           : "No attributes exit"}
       </p>
-      <p className="text-gray-600 mb-4 sm:mb-8 text-center font-semibold">
-        Description: {description || "No description found"}
+      <p className="text-gray-600 mb-4 sm:mb-8 font-medium">
+        <span className="font-bold text-black">Description: </span>
+        {description || "No description found"}
       </p>
-      <p className="text-gray-600 mb-4 sm:mb-8 text-center font-semibold">
-        Reviews:{" "}
+      <p className="text-gray-600 font-semibold">
+        <span className="font-bold text-black">Reviews:</span>
         {featured_review?.length > 0
           ? getFeaturedReviews(featured_review)
           : "No reviews exit"}
       </p>
-      <button
-        onClick={handleGoBack}
-        className="relative bg-blue-500 text-white  py-2 rounded-lg min-w-[180px] text-center min-h-[48px]"
-      >
-        <FontAwesomeIcon icon={faArrowLeft} className="mr-2" />
-        Go Back
-      </button>
     </div>
   );
 };
