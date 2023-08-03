@@ -80,12 +80,13 @@ export const ViewParsedData: React.FC<Props> = ({
         <span className="font-bold text-black">Description: </span>
         {description || "No description found"}
       </p>
-      <p className="text-gray-600 font-semibold">
-        <span className="font-bold text-black">Reviews:</span>
-        {featured_review?.length > 0
-          ? getFeaturedReviews(featured_review)
-          : "No reviews exit"}
-      </p>
+      <h2 className="text-2xl font-bold mb-4 text-center">Reviews</h2>
+      {featured_review?.map((review: any, index: number) => (
+        <div className="bg-sky-100 rounded-lg shadow-md p-4 mb-4">
+          <p className="text-black font-semibold">{review.author.name}</p>
+          <p className="text-black">{review.text}</p>
+        </div>
+      ))}
     </div>
   );
 };
